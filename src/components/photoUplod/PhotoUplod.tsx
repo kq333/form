@@ -11,26 +11,35 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
   const [fileName, setFileName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
+  const validateFileExtensions = (fileName) => {
+    const validExtensions = ['.jpeg', '.jpg', '.png', '.gif'];
+    const extension = fileName.slice(
+      ((fileName.lastIndexOf('.') - 1) >>> 0) + 2,
+    );
+
+    return validExtensions.includes(`.${extension.toLowerCase()}`);
+  };
+
   const onDrop = useCallback(
     (acceptedFiles) => {
-      const validMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-
       const filteredFiles = acceptedFiles.filter((file) => {
-        if (!file.type || validMimeTypes.includes(file.type)) {
+        if (validateFileExtensions(file.name)) {
           return true;
         } else {
           console.error(
-            `Skipped '${file.name}' because it has an invalid MIME type: ${file.type}`,
+            `Skipped '${file.name}' because it has an invalid file extension.`,
+          );
+          setErrorMessage(
+            'Invalid file extension. Please upload only JPEG, JPG, PNG, or GIF files.',
           );
           return false;
         }
       });
 
-      setErrorMessage('');
-
       if (filteredFiles.length > 0) {
         passPhotoFile(filteredFiles[0].path);
         setFileName(filteredFiles[0].path);
+        setErrorMessage('');
       }
     },
     [passPhotoFile, setErrorMessage],
@@ -38,9 +47,6 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: {
-      'image/*': ['.jpeg', '.jpg', '.png'],
-    },
   });
 
   const handleDeleteFile = (e) => {
@@ -66,7 +72,7 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
         {!fileName.length ? (
           <>
             {errorMessage ? (
-              <p className='text-inputError hover:cursor-pointer'>
+              <p className='text-inputError hover:cursor-pointer text-xs'>
                 {errorMessage}
               </p>
             ) : (
