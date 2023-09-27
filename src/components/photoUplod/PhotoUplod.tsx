@@ -58,7 +58,7 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
   return (
     <div>
       <div>
-        <div>Photo</div>
+        <div  className='text-textPrimary uppercase'>Photo</div>
       </div>
 
       <div
@@ -77,10 +77,15 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
               </p>
             ) : (
               <>
-                <p className='text-base text-[#761BE4] underline underline-offset-1 hover:cursor-pointer'>
+                <p
+                  role='presentation'
+                  className='text-base text-[#761BE4] underline underline-offset-1 hover:cursor-pointer '
+                >
                   Upload a file
                 </p>
-                <p className='pl-2 text-textSecond'>or drag and drop here</p>
+                <p role='presentation' className='pl-2 text-textSecond '>
+                  or drag and drop here
+                </p>
               </>
             )}
           </>
