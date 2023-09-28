@@ -6,15 +6,15 @@ import { monthNameToNumber, dayNumberWithZero } from './helper';
 import infoIcon from '../../assets/icons/info.png';
 
 interface Props {
-  appointmentDate: (calendarData: { hour: string; date: string }) => void;
+  appointmentDate: (calendarData: { hour: string; data: string }) => void;
 }
 
 export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [month, setMonth] = useState<number>(new Date().getMonth() + 1);
   const [days, setDays] = useState<(string | number)[]>([]);
-  const [calendarDays, setCalendarDays] = useState([]);
-  const [clickedDay, setClickedDay] = useState<number>(null);
+  const [calendarDays, setCalendarDays] = useState<any[]>([]);
+  const [clickedDay, setClickedDay] = useState<number | null>(null);
 
   const [holidayName, setHolidayName] = useState<string>('');
   const [timeSlot, setTimeSlot] = useState<string>('');
@@ -25,7 +25,7 @@ export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
     generateCalendar(year, month);
   }, [year, month]);
 
-  function generateCalendar(year, month) {
+  function generateCalendar(year: number, month: number) {
     const firstDayOfMonth = new Date(year, month - 1, 1);
     const lastDayOfMonth = new Date(year, month, 0);
     const numberOfDays = lastDayOfMonth.getDate();
@@ -74,7 +74,7 @@ export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
     const day = dayNumberWithZero(dayNumber);
     let isHolidayFound = false;
 
-    setClickedDay((prevClickedDay) => {
+    setClickedDay((prevClickedDay: number | null) => {
       return dayNumber === prevClickedDay ? null : dayNumber;
     });
 
@@ -118,14 +118,14 @@ export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
       });
   }, []);
 
-  const holidayClassName = (day, index) => {
+  const holidayClassName = (day: string | number, index: number) => {
     const formattedDate = `${year}-${monthNameToNumber(monthName).padStart(
       2,
       '0',
     )}-${day.toString().padStart(2, '0')}`;
 
     const nationalHolidays = calendarDays.filter(
-      (checkday) =>
+      (checkday: any) =>
         checkday.type === 'NATIONAL_HOLIDAY' && checkday.date === formattedDate,
     );
 
@@ -139,7 +139,7 @@ export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
   };
 
   useEffect(() => {
-    const day = dayNumberWithZero(clickedDay);
+    const day = dayNumberWithZero(clickedDay || 0);
     if (timeSlot.length > 0) {
       appointmentDate({
         hour: timeSlot,
@@ -180,7 +180,7 @@ export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
                 {days.map((day, index) => (
                   <ul
                     key={index}
-                    onClick={() => handlerGetDate(day)}
+                    onClick={() => handlerGetDate(+day)}
                     className={holidayClassName(day, index)}
                   >
                     <li className='flex justify-center items-center'>{day}</li>
