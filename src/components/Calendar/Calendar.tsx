@@ -74,7 +74,9 @@ export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
     const day = dayNumberWithZero(dayNumber);
     let isHolidayFound = false;
 
-    setClickedDay(dayNumber);
+    setClickedDay((prevClickedDay) => {
+      return dayNumber === prevClickedDay ? null : dayNumber;
+    });
 
     for (const checkday of calendarDays) {
       const targetDate = `${year}-${monthNameToNumber(monthName)}-${day}`;
@@ -114,7 +116,7 @@ export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
       .catch((error) => {
         console.error('Error:', error);
       });
-  }, [URL]);
+  }, []);
 
   const holidayClassName = (day, index) => {
     const formattedDate = `${year}-${monthNameToNumber(monthName).padStart(
@@ -144,7 +146,7 @@ export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
         data: `${day}-${monthNameToNumber(monthName)}-${year}`,
       });
     }
-  }, [clickedDay, month, year, timeSlot, appointmentDate, monthName]);
+  }, [clickedDay, month, year, timeSlot, monthName]);
 
   return (
     <div>
