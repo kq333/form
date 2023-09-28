@@ -1,17 +1,17 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback, MouseEvent } from 'react';
 
 import { useDropzone } from 'react-dropzone';
 import fileIcon from '../../assets/icons/Vector.png';
 
 interface Props {
-  passPhotoFile: (file: string) => void;
+  passPhotoFile: (file: any) => void;
 }
 
-export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
+export const PhotoUpload: React.FC<Props> = ({ passPhotoFile }) => {
   const [fileName, setFileName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const validateFileExtensions = (fileName) => {
+  const validateFileExtensions = (fileName: string) => {
     const validExtensions = ['.jpeg', '.jpg', '.png', '.gif'];
     const extension = fileName.slice(
       ((fileName.lastIndexOf('.') - 1) >>> 0) + 2,
@@ -32,7 +32,7 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
             reader.onload = () => {
               const base64Data = reader.result as string;
 
-              setFileName(file.path);
+              setFileName(file.name);
               passPhotoFile(base64Data);
             };
             reader.readAsDataURL(file);
@@ -53,7 +53,7 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
     onDrop,
   });
 
-  const handleDeleteFile = (e) => {
+  const handleDeleteFile = (e: MouseEvent<HTMLImageElement>) => {
     e.preventDefault();
     setFileName('');
     passPhotoFile('');
