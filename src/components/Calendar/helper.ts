@@ -7,6 +7,8 @@ export function monthNameToNumber(monthName: string): string {
   return formattedMonth;
 }
 
-export function dayNumberWithZero(clickedDay: number): string {
-  return clickedDay <= 9 ? `0${clickedDay}` : clickedDay;
+export function dayNumberWithZero(clickedDay: number | string): string {
+  const dayNumber =
+    typeof clickedDay === 'string' ? parseInt(clickedDay, 10) : clickedDay;
+  return dayNumber <= 9 ? `0${dayNumber}` : dayNumber.toString();
 }
