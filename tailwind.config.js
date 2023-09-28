@@ -9,6 +9,8 @@ export default {
       inputBG: '#FFFFFF',
       textPrimary: '#000853',
       textSecond: '#898DA9',
+      errorColor: '#ED4545',
+      errorBG: '#FEECEC',
     },
   },
   plugins: [],
