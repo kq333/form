@@ -21,25 +21,29 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
   };
 
   const onDrop = useCallback(
-    (acceptedFiles) => {
-      const filteredFiles = acceptedFiles.filter((file) => {
+    async (acceptedFiles: File[]) => {
+      setErrorMessage('');
+
+      if (acceptedFiles.length > 0) {
+        const file = acceptedFiles[0];
         if (validateFileExtensions(file.name)) {
-          return true;
+          try {
+            const reader = new FileReader();
+            reader.onload = () => {
+              const base64Data = reader.result as string;
+
+              setFileName(file.path);
+              passPhotoFile(base64Data);
+            };
+            reader.readAsDataURL(file);
+          } catch (error) {
+            console.error('Error reading file:', error);
+          }
         } else {
-          console.error(
-            `Skipped '${file.name}' because it has an invalid file extension.`,
-          );
           setErrorMessage(
             'Invalid file extension. Please upload only JPEG, JPG, PNG, or GIF files.',
           );
-          return false;
         }
-      });
-
-      if (filteredFiles.length > 0) {
-        passPhotoFile(filteredFiles[0].path);
-        setFileName(filteredFiles[0].path);
-        setErrorMessage('');
       }
     },
     [passPhotoFile, setErrorMessage],
@@ -58,7 +62,7 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
   return (
     <div>
       <div>
-        <div  className='text-textPrimary uppercase'>Photo</div>
+        <div className='text-textPrimary uppercase'>Photo</div>
       </div>
 
       <div
