@@ -87,7 +87,10 @@ export const PhotoUpload: React<Props> = ({ passPhotoFile }) => {
                 >
                   Upload a file
                 </p>
-                <p role='presentation' className='pl-2 text-textSecond '>
+                <p
+                  role='presentation'
+                  className='pl-2 text-textSecond hidden md:block'
+                >
                   or drag and drop here
                 </p>
               </>
