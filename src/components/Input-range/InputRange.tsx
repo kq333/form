@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent  } from 'react';
 import recangleIcon from '../../assets/icons/Union.svg';
 
 interface Props {
@@ -6,11 +6,11 @@ interface Props {
 }
 
 export const RangeSlider: React.FC<Props> = ({ sliderInputValue }) => {
-  const [sliderValue, setSliderValue] = useState(8);
+  const [sliderValue, setSliderValue] = useState<number>(8);
 
-  const handleSliderChange = (e: number) => {
-    setSliderValue(e.target.value);
-    sliderInputValue(e.target.value);
+  const handleSliderChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setSliderValue(+e.target.value);
+    sliderInputValue(+e.target.value);
   };
 
   const indicatorStyle = {
@@ -37,13 +37,13 @@ export const RangeSlider: React.FC<Props> = ({ sliderInputValue }) => {
         className={`${
           sliderValue < 70
             ? `w-10 text-white text-xs px-1 py-1 rounded absolute top-0 transform -translate-x-3/4  mt-12  ${
-                sliderValue <= 20 ? 'ml-[-2px]' : 'ml-2'
+                sliderValue <= 32 ? 'ml-1 md:ml-[-1px] ' : 'ml-0'
               }`
-            : 'w-10 text-white text-xs px-1 py-1 rounded absolute top-0 transform -translate-x-3/4  mt-12 ml-4'
+            : 'w-10 text-white text-xs px-1 py-1 rounded absolute top-0 transform -translate-x-3/4  mt-12 md:ml-2.5'
         }`}
         style={indicatorStyle}
       >
-        <div className=' z-10 absolute pl-2 pt-3 h-[37px] w-[31px] text-center '>
+        <div className='z-10 absolute pl-2 pt-3 h-[37px] w-[31px] text-center '>
           {sliderValue}
         </div>
         <img src={recangleIcon} className='absolute' alt='Rectangle Icon' />

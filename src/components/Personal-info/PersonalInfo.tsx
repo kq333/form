@@ -1,140 +1,218 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-import errorIcon from '../../assets/icons/error-icon.png';
 import { PhotoUpload } from '../photoUplod';
+import { Calendar } from '../Calendar';
+import { RangeSlider } from '../Input-range';
+import { UniversalInput } from '../Universal-Input';
+
+import { nameAndFornameValidator, emailValidator } from './helper';
 
 export const PersonalInfo = () => {
-  const [nameValue, setNameValue] = useState('');
-  const [lastNameValue, setLastNameValue] = useState('');
-  const [emailValue, setEmailValue] = useState('');
+  const [nameValue, setNameValue] = useState<string>('');
+  const [lastNameValue, setLastNameValue] = useState<string>('');
+  const [emailValue, setEmailValue] = useState<string>('');
+  const [photoFile, setPhotoFile] = useState<string>('');
+  const [sliderValue, setSliderValue] = useState<number>(8);
+  const [appointment, setAppointment] = useState<Record<string, string>>({
+    hour: '',
+    date: '',
+  });
 
-  const [sliderValue, setSliderValue] = useState(0);
-  const [popupPosition, setPopupPosition] = useState(0);
+  const [errorName, setErrorName] = useState<boolean>(false);
+  const [errorLastName, setErrorLastName] = useState<boolean>(false);
+  const [errorEmail, setErrorEmail] = useState<boolean>(false);
 
   const handlerNameValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
+    setErrorName(false);
   };
 
   const handlerLastNameValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastNameValue(e.target.value);
+    setErrorLastName(false);
   };
 
   const handlerEmailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value);
+    setErrorEmail(false);
   };
 
-  const handlerRangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
+  const resetForm = () => {
+    setNameValue('');
+    setLastNameValue('');
+    setEmailValue('');
+    setPhotoFile('');
+    setSliderValue(8);
+    setAppointment({ hour: '', date: '' });
+    setErrorName(false);
+    setErrorLastName(false);
+    setErrorEmail(false);
+  };
+
+  const handleFormSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const isEmailValid = emailValidator(emailValue);
+    setErrorEmail(!isEmailValid);
+
+    const isNameValid = nameAndFornameValidator(nameValue);
+    setErrorName(!isNameValid);
+
+    const isLastNameValid = nameAndFornameValidator(lastNameValue);
+    setErrorLastName(!isLastNameValid);
+
+    if (
+      !errorEmail &&
+      !errorName &&
+      !errorLastName &&
+      nameValue &&
+      lastNameValue &&
+      emailValue
+    ) {
+      try {
+        const dataToSend = {
+          photo: photoFile,
+          age: sliderValue,
+          date: appointment,
+          name: nameValue,
+          forname: lastNameValue,
+          email: emailValue,
+        };
+
+        const response = await fetch('http://letsworkout.pl/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataToSend),
+        });
+
+        if (response.ok) {
+          console.log('Form submitted successfully');
+
+          resetForm();
+        } else {
+          console.error('Form submission failed');
+        }
+      } catch (error) {
+        console.error('Error submitting form:', error);
+        resetForm();
+      }
+    }
+  };
+
+  const passPhotoFile = (file: string) => {
+    setPhotoFile(file);
+  };
+
+  const sliderInputValue = (value: number) => {
     setSliderValue(value);
   };
 
-  useEffect(() => {
-    const sliderWidth = 400;
-    const offsetLeft = (sliderValue / 100) * sliderWidth;
-
-    setPopupPosition(offsetLeft);
-  }, [sliderValue]);
+  const handleAppointmentChange = (calendarData: { hour: string }) => {
+    setAppointment(calendarData);
+  };
 
   return (
-    <div className='bg-[#F0EAF8] h-screen w-screen flex justify-center'>
+    <div className='bg-[#F0EAF8] h-auto  flex justify-center'>
       <div className='max-w-[426px] w-full  pl-6 pr-6 md:pr-0 md:pl-0'>
-        <h2 className='text-2xl font-medium mt-[120px]'>Personal info</h2>
-        <form className='mt-12'>
-          <div>
-            <div>
-              <label htmlFor='name'>First Name</label>
-            </div>
-            <div className='w-[100%] sm:w-[426px]'>
-              <input
-                type='text'
-                id='name'
-                name='name'
-                minLength={3}
-                value={nameValue}
-                onChange={handlerNameValue}
-                className='border-inputDefault border-2 focus:border-inputFocus focus:outline-none error:border-inputError rounded-lg w-full h-12 pl-4'
-              />
-            </div>
+        <h2 className='text-2xl font-medium mt-[120px] text-textPrimary'>
+          Personal info
+        </h2>
+        <form className='mt-8' onSubmit={handleFormSubmit}>
+          <div className='mt-6'>
+            <UniversalInput
+              id='name'
+              label='First Name'
+              type='text'
+              value={nameValue}
+              onChange={handlerNameValue}
+              error={errorName}
+              errorMessage={
+                errorName ? 'Name have to contains min 3 letters' : ''
+              }
+            />
           </div>
 
           <div className='mt-6'>
-            <div>
-              <label htmlFor='name'>last Name</label>
-            </div>
-            <div className='w-[100%] sm:w-[426px]'>
-              <input
-                type='text'
-                id='name'
-                name='name'
-                minLength={3}
-                value={lastNameValue}
-                onChange={handlerLastNameValue}
-                className='border-inputDefault border-2 focus:border-inputFocus focus:outline-none error:border-inputError rounded-lg w-full h-12 pl-4'
-              />
-            </div>
+            <UniversalInput
+              id='lastName'
+              label='Last Name'
+              type='text'
+              value={lastNameValue}
+              onChange={handlerLastNameValue}
+              error={errorLastName}
+              errorMessage={
+                errorLastName ? 'Last Name have to contains min 3 letters' : ''
+              }
+            />
           </div>
 
           <div className='mt-6'>
-            <div>
-              <label htmlFor='name'>Email Adress</label>
-            </div>
-            <div className='w-[100%] sm:w-[426px]'>
-              <input
-                type='text'
-                id='name'
-                name='name'
-                minLength={3}
-                value={emailValue}
-                onChange={handlerEmailValue}
-                className='border-inputDefault border-2 focus:border-inputFocus focus:outline-none error:border-inputError rounded-lg w-full h-12 pl-4'
-              />
-            </div>
-            <p className='flex pt-2'>
-              <span className='pt-1'>
-                {' '}
-                <img src={errorIcon} alt='error icon' />
-              </span>
-
-              <span className='pl-2 text-sm'>
-                Please use correct formatting. <br /> Example: address@email.com
-              </span>
-            </p>
+            <UniversalInput
+              id='email'
+              label='Email Address'
+              type='text'
+              value={emailValue}
+              onChange={handlerEmailValue}
+              error={errorEmail}
+              errorMessage={
+                errorEmail
+                  ? `Please use correct formatting. \n
+                     Example: address@email.com`
+                  : ''
+              }
+            />
           </div>
 
-          <div className='mt-6 relative'>
-            <div>
-              <label htmlFor='name'>Age</label>
-            </div>
-            <div className='w-[100%] sm:w-[426px] '>
-              <div className='flex justify-between text-xs pt-7'>
-                <div>8</div>
-                <div>100</div>
-              </div>
-              <input
-                type='range'
-                id='name'
-                name='name'
-                minLength={8}
-                maxLength={100}
-                step={1}
-                value={sliderValue}
-                onChange={handlerRangeValue}
-                className='border-inputDefault border-2 focus:border-inputFocus focus:outline-none error:border-inputError rounded-lg w-full h-12 pl-4 range  accent-[#CBB6E5]  '
-              />
-            </div>
-
-            <div
-              className='bg-gray-800 red-white   rounded-lg absolute max-w-[426px]'
-              style={{ left: `${popupPosition}px` }}
-            >
-              {sliderValue}
-            </div>
+          <div className='mt-6'>
+            <RangeSlider sliderInputValue={sliderInputValue} />
           </div>
 
           <div className='mt-12'>
-            <PhotoUpload />
-       
+            <PhotoUpload passPhotoFile={passPhotoFile} />
           </div>
+
+          <div className='mt-12'>
+            <h3 className='text-2xl text-textPrimary font-medium'>
+              Your workout
+            </h3>
+
+            <div className='mt-8'>
+            <Calendar appointmentDate={handleAppointmentChange} />
+            </div>
+          </div>
+
+          <input
+            type='submit'
+            value='Send Application'
+            className={`text-inputBG text-[18px] w-full p-2 flex items-center justify-center rounded mt-12 ${
+              nameValue &&
+              lastNameValue &&
+              emailValue &&
+              photoFile &&
+              appointment.data &&
+              sliderValue >= 0 &&
+              !errorEmail &&
+              !errorName &&
+              !errorLastName
+                ? 'bg-submitActive hover:bg-submitHover cursor-pointer'
+                : 'bg-submitInactive cursor-not-allowed'
+            }`}
+            disabled={
+              !(
+                nameValue &&
+                lastNameValue &&
+                emailValue &&
+                photoFile &&
+                appointment.data &&
+                sliderValue >= 0 &&
+                !errorEmail &&
+                !errorName &&
+                !errorLastName
+              )
+            }
+          />
         </form>
       </div>
     </div>
