@@ -7,7 +7,7 @@ import infoIcon from '../../assets/icons/info.png';
 
 interface Props {
   appointmentDate: (calendarData: { hour: string; data: string }) => void;
-  resetValue: (value: boolean) => void;
+  resetValue: boolean;
 }
 
 export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
@@ -158,9 +158,7 @@ export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
   };
 
   useEffect(() => {
-    if (resetValue) {
-      resetState();
-    }
+    resetState();
   }, [resetValue]);
 
   return (

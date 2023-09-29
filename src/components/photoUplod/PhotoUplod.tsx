@@ -5,7 +5,7 @@ import fileIcon from '../../assets/icons/Vector.png';
 
 interface Props {
   passPhotoFile: (file: any) => void;
-  resetValue: (value: boolean) => void;
+  resetValue: boolean;
 }
 
 export const PhotoUpload: React.FC<Props> = ({ passPhotoFile, resetValue }) => {
@@ -61,10 +61,8 @@ export const PhotoUpload: React.FC<Props> = ({ passPhotoFile, resetValue }) => {
   };
 
   useEffect(() => {
-    if (resetValue) {
-      setFileName('');
-      passPhotoFile('');
-    }
+    setFileName('');
+    passPhotoFile('');
   }, [resetValue]);
 
   return (

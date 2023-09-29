@@ -3,7 +3,7 @@ import recangleIcon from '../../assets/icons/Union.svg';
 
 interface Props {
   sliderInputValue: (value: number) => void;
-  resetValue: (value: boolean) => void;
+  resetValue: boolean;
 }
 
 export const RangeSlider: React.FC<Props> = ({
@@ -18,9 +18,7 @@ export const RangeSlider: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    if (resetValue) {
-      setSliderValue(8);
-    }
+    setSliderValue(8);
   }, [resetValue]);
 
   const indicatorStyle = {
