@@ -154,6 +154,7 @@ export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
     setMonth(new Date().getMonth() + 1);
     setClickedDay(null);
     setTimeSlot('');
+    setHolidayName('');
     console.log('Resetting calendar state');
   };
 
