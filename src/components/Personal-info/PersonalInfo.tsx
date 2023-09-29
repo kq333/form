@@ -117,9 +117,9 @@ export const PersonalInfo = () => {
   };
 
   return (
-    <div className='bg-[#F0EAF8] h-auto  flex justify-center'>
+    <div className='bg-[#F0EAF8] h-auto  flex justify-center pb-4'>
       <div className='max-w-[426px] w-full  pl-6 pr-6 md:pr-0 md:pl-0'>
-        <h2 className='text-2xl font-medium mt-[120px] text-textPrimary'>
+        <h2 className='text-2xl font-medium mt-24 md:mt-[120px] text-textPrimary'>
           Personal info
         </h2>
         <form className='mt-8' onSubmit={handleFormSubmit}>
@@ -198,7 +198,7 @@ export const PersonalInfo = () => {
           <input
             type='submit'
             value='Send Application'
-            className={`text-inputBG text-[18px] w-full p-2 flex items-center justify-center rounded mt-12 ${
+            className={`text-inputBG text-[18px] w-full p-2 flex items-center justify-center rounded mt-12  ${
               nameValue &&
               lastNameValue &&
               emailValue &&
@@ -209,7 +209,7 @@ export const PersonalInfo = () => {
               !errorName &&
               !errorLastName
                 ? 'bg-submitActive hover:bg-submitHover cursor-pointer'
-                : 'bg-submitInactive cursor-not-allowed'
+                : 'bg-submitInactive cursor-default'
             }`}
             disabled={
               !(
