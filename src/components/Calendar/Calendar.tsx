@@ -158,7 +158,9 @@ export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
   };
 
   useEffect(() => {
-    resetState();
+    if (resetValue) {
+      resetState();
+    }
   }, [resetValue]);
 
   return (
