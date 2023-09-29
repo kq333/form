@@ -45,9 +45,9 @@ export const RangeSlider: React.FC<Props> = ({
         className={`${
           sliderValue < 70
             ? `w-10 text-white text-xs px-1 py-1 rounded absolute top-0 transform -translate-x-3/4  mt-12  ${
-                sliderValue <= 32 ? 'ml-1 md:ml-[-1px] ' : 'ml-0'
+                sliderValue <= 32 ? 'ml-1   md:ml-[-3px] ' : 'md:ml-0'
               }`
-            : 'w-10 text-white text-xs px-1 py-1 rounded absolute top-0 transform -translate-x-3/4  mt-12 md:ml-2.5'
+            : 'w-10 text-white text-xs px-1 py-1 rounded absolute top-0 transform -translate-x-3/4  mt-12 xl:ml-4  ml-3'
         }`}
         style={indicatorStyle}
       >
