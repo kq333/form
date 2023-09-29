@@ -1,17 +1,27 @@
-import React, { useState, ChangeEvent  } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import recangleIcon from '../../assets/icons/Union.svg';
 
 interface Props {
   sliderInputValue: (value: number) => void;
+  resetValue: (value: boolean) => void;
 }
 
-export const RangeSlider: React.FC<Props> = ({ sliderInputValue }) => {
+export const RangeSlider: React.FC<Props> = ({
+  sliderInputValue,
+  resetValue,
+}) => {
   const [sliderValue, setSliderValue] = useState<number>(8);
 
   const handleSliderChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSliderValue(+e.target.value);
     sliderInputValue(+e.target.value);
   };
+
+  useEffect(() => {
+    if (resetValue) {
+      setSliderValue(8);
+    }
+  }, [resetValue]);
 
   const indicatorStyle = {
     left: `calc(${sliderValue}% - 1rem)`,

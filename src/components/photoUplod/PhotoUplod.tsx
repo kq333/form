@@ -1,13 +1,14 @@
-import React, { useState, useCallback, MouseEvent } from 'react';
+import React, { useState, useCallback, MouseEvent, useEffect } from 'react';
 
 import { useDropzone } from 'react-dropzone';
 import fileIcon from '../../assets/icons/Vector.png';
 
 interface Props {
   passPhotoFile: (file: any) => void;
+  resetValue: (value: boolean) => void;
 }
 
-export const PhotoUpload: React.FC<Props> = ({ passPhotoFile }) => {
+export const PhotoUpload: React.FC<Props> = ({ passPhotoFile, resetValue }) => {
   const [fileName, setFileName] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -58,6 +59,13 @@ export const PhotoUpload: React.FC<Props> = ({ passPhotoFile }) => {
     setFileName('');
     passPhotoFile('');
   };
+
+  useEffect(() => {
+    if (resetValue) {
+      setFileName('');
+      passPhotoFile('');
+    }
+  }, [resetValue]);
 
   return (
     <div>

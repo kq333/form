@@ -7,9 +7,10 @@ import infoIcon from '../../assets/icons/info.png';
 
 interface Props {
   appointmentDate: (calendarData: { hour: string; data: string }) => void;
+  resetValue: (value: boolean) => void;
 }
 
-export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
+export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [month, setMonth] = useState<number>(new Date().getMonth() + 1);
   const [days, setDays] = useState<(string | number)[]>([]);
@@ -147,6 +148,20 @@ export const Calendar: React.FC<Props> = ({ appointmentDate }) => {
       });
     }
   }, [clickedDay, month, year, timeSlot, monthName]);
+
+  const resetState = () => {
+    setYear(new Date().getFullYear());
+    setMonth(new Date().getMonth() + 1);
+    setClickedDay(null);
+    setTimeSlot('');
+    console.log('Resetting calendar state');
+  };
+
+  useEffect(() => {
+    if (resetValue) {
+      resetState();
+    }
+  }, [resetValue]);
 
   return (
     <div>
