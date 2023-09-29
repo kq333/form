@@ -49,7 +49,7 @@ export const PersonalInfo = () => {
     setErrorName(false);
     setErrorLastName(false);
     setErrorEmail(false);
-    setResetChildValue(true);
+    setResetChildValue(!resetChildValue);
   };
 
   const handleFormSubmit = async (event: React.FormEvent) => {
@@ -82,24 +82,30 @@ export const PersonalInfo = () => {
           email: emailValue,
         };
 
-        const response = await fetch('http://letsworkout.pl/submit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const response = await fetch(
+          'https://jsonplaceholder.typicode.com/posts',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataToSend),
           },
-          body: JSON.stringify(dataToSend),
-        });
+        );
 
         if (response.ok) {
           console.log('Form submitted successfully');
 
           resetForm();
+
+          setTimeout(() => {
+            setResetChildValue(true);
+          }, 1000);
         } else {
           console.error('Form submission failed');
         }
       } catch (error) {
         console.error('Error submitting form:', error);
-        resetForm();
       }
     }
   };
