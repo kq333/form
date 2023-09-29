@@ -155,6 +155,9 @@ export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
     setClickedDay(null);
     setTimeSlot('');
     setHolidayName('');
+    setDays([]);
+    setCalendarDays([]);
+    setClickedDay(null);
     console.log('Resetting calendar state');
   };
 
