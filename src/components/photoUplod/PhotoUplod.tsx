@@ -68,12 +68,12 @@ export const PhotoUpload: React.FC<Props> = ({ passPhotoFile, resetValue }) => {
   return (
     <div>
       <div>
-        <div className='text-textPrimary uppercase'>Photo</div>
+        <div className='text-textPrimary uppercase pb-2'>Photo</div>
       </div>
 
       <div
         {...getRootProps()}
-        className={`border-inputDefault border-2 rounded-lg flex justify-center items-center p-8 text-base bg-inputBG ${
+        className={`border-inputDefault border-2  rounded-lg flex justify-center items-center p-8 text-base bg-inputBG ${
           isDragActive ? 'bg-gray-100' : ''
         }`}
       >
