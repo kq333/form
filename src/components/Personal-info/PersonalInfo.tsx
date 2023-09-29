@@ -22,7 +22,7 @@ export const PersonalInfo = () => {
   const [errorLastName, setErrorLastName] = useState<boolean>(false);
   const [errorEmail, setErrorEmail] = useState<boolean>(false);
 
-  const [resetChildValue, setResetChildValue] = useState(false);
+  const [resetChildValue, setResetChildValue] = useState<boolean>(false);
 
   const handlerNameValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
