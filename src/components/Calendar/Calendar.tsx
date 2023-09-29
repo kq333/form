@@ -215,8 +215,8 @@ export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
                   onClick={() => setTimeSlot(time)}
                   className={`${
                     time === timeSlot
-                      ? 'border-2 border-inputFocus rounded-lg inline-block p-2 w-[76px] text-center text-textPrimary hover:cursor-pointer'
-                      : 'border-2  border-inputDefault  rounded-lg inline-block p-2 w-[76px] text-center text-textPrimary hover:cursor-pointer'
+                      ? 'border-2 border-inputFocus rounded-lg inline-block p-2 w-[76px] text-center text-textPrimary hover:cursor-pointer bg-inputBG'
+                      : 'border-2  border-inputDefault  rounded-lg inline-block p-2 w-[76px] text-center text-textPrimary hover:cursor-pointer bg-inputBG'
                   }`}
                 >
                   {time}
