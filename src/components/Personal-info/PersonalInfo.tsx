@@ -22,6 +22,8 @@ export const PersonalInfo = () => {
   const [errorLastName, setErrorLastName] = useState<boolean>(false);
   const [errorEmail, setErrorEmail] = useState<boolean>(false);
 
+  const [resetChildValue, setResetChildValue] = useState(false);
+
   const handlerNameValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
     setErrorName(false);
@@ -47,6 +49,7 @@ export const PersonalInfo = () => {
     setErrorName(false);
     setErrorLastName(false);
     setErrorEmail(false);
+    setResetChildValue(true);
   };
 
   const handleFormSubmit = async (event: React.FormEvent) => {
@@ -166,11 +169,17 @@ export const PersonalInfo = () => {
           </div>
 
           <div className='mt-6'>
-            <RangeSlider sliderInputValue={sliderInputValue} />
+            <RangeSlider
+              sliderInputValue={sliderInputValue}
+              resetValue={resetChildValue}
+            />
           </div>
 
           <div className='mt-12'>
-            <PhotoUpload passPhotoFile={passPhotoFile} />
+            <PhotoUpload
+              passPhotoFile={passPhotoFile}
+              resetValue={resetChildValue}
+            />
           </div>
 
           <div className='mt-12'>
@@ -179,7 +188,10 @@ export const PersonalInfo = () => {
             </h3>
 
             <div className='mt-8'>
-            <Calendar appointmentDate={handleAppointmentChange} />
+              <Calendar
+                appointmentDate={handleAppointmentChange}
+                resetValue={resetChildValue}
+              />
             </div>
           </div>
 
