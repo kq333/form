@@ -179,15 +179,15 @@ export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
                   <img src={rigthArrowIcon} alt='arrow icon' />
                 </button>
               </div>
-              <ul className='grid grid-cols-7  text-textPrimary'>
+              <div className='grid grid-cols-7  text-textPrimary'>
                 {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map(
                   (day, index) => (
-                    <li
+                    <div
                       key={index}
                       className='text-center font-semibold text-gray-700'
                     >
                       {day}
-                    </li>
+                    </div>
                   ),
                 )}
                 {days.map((day, index) => (
@@ -199,7 +199,7 @@ export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
                     <li className='flex justify-center items-center'>{day}</li>
                   </ul>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
         </div>
