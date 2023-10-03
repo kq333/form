@@ -30,6 +30,7 @@ export const PersonalInfo = () => {
       setErrorName(true);
     } else {
       setErrorName(false);
+      setNameValue(e.target.value);
     }
   };
 
@@ -39,6 +40,7 @@ export const PersonalInfo = () => {
       setErrorLastName(true);
     } else {
       setErrorLastName(false);
+      setLastNameValue(e.target.value);
     }
   };
 
