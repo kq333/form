@@ -26,7 +26,7 @@ export const PersonalInfo = () => {
 
   const handlerNameValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
-    if (nameValue.length <= 1) {
+    if (nameAndFornameValidator(nameValue)) {
       setErrorName(true);
     } else {
       setErrorName(false);
@@ -35,7 +35,7 @@ export const PersonalInfo = () => {
 
   const handlerLastNameValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastNameValue(e.target.value);
-    if (lastNameValue.length <= 1) {
+    if (nameAndFornameValidator(lastNameValue)) {
       setErrorLastName(true);
     } else {
       setErrorLastName(false);
@@ -63,15 +63,6 @@ export const PersonalInfo = () => {
 
   const handleFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    const isEmailValid = emailValidator(emailValue);
-    setErrorEmail(!isEmailValid);
-
-    const isNameValid = nameAndFornameValidator(nameValue);
-    setErrorName(!isNameValid);
-
-    const isLastNameValid = nameAndFornameValidator(lastNameValue);
-    setErrorLastName(!isLastNameValid);
 
     if (
       !errorEmail &&
@@ -103,12 +94,10 @@ export const PersonalInfo = () => {
         );
 
         if (response.ok) {
-          console.log('Form submitted successfully');
-
-          resetForm();
 
           setTimeout(() => {
             setResetChildValue(true);
+            resetForm();
           }, 1000);
         } else {
           console.error('Form submission failed');
