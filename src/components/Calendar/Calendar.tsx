@@ -206,13 +206,22 @@ export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
               </div>
             </div>
           </div>
+
+          <div>
+            {holidayName.length > 0 && (
+              <div className='flex items-center gap-2 pt-2'>
+                <img src={infoIcon} alt='icon' className='h-4 w-4 ' />
+                <p className='text-inputDefault text-sm'>{`It is Polish ${holidayName}`}</p>
+              </div>
+            )}
+          </div>
         </div>
 
         {clickedDay && (
           <div className='pt-6 md:pt-0'>
             <p className=''>Time</p>
 
-            <ul className='flex flex-wrap md:flex-col gap-2 pt-2'>
+            <ul className='flex flex-wrap  md:flex-col gap-2 pt-2'>
               {timeSlots.map((time, index) => (
                 <li
                   key={index}
@@ -230,13 +239,6 @@ export const Calendar: React.FC<Props> = ({ appointmentDate, resetValue }) => {
           </div>
         )}
       </div>
-
-      {holidayName.length > 0 && (
-        <div className='flex items-center gap-2 pt-2'>
-          <img src={infoIcon} alt='icon' className='h-4 w-4 ' />
-          <p className='text-inputDefault text-sm'>{`It is Polish ${holidayName}`}</p>
-        </div>
-      )}
     </div>
   );
 };
