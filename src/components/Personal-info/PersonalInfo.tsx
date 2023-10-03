@@ -26,17 +26,26 @@ export const PersonalInfo = () => {
 
   const handlerNameValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
-    setErrorName(false);
+    if (nameValue.length <= 1) {
+      setErrorName(true);
+    } else {
+      setErrorName(false);
+    }
   };
 
   const handlerLastNameValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLastNameValue(e.target.value);
-    setErrorLastName(false);
+    if (lastNameValue.length <= 1) {
+      setErrorLastName(true);
+    } else {
+      setErrorLastName(false);
+    }
   };
 
   const handlerEmailValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value);
-    setErrorEmail(false);
+
+    emailValidator(emailValue) ? setErrorEmail(false) : setErrorEmail(true);
   };
 
   const resetForm = () => {
