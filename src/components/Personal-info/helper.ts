@@ -1,5 +1,5 @@
 export const nameAndFornameValidator = (word: string): boolean => {
-  return word.length >= 3;
+  return word.length < 2;
 };
 
 export const emailValidator = (email: string): boolean => {
